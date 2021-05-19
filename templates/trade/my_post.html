@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    iTrade - my post items
+{% endblock title %}
+
+{% block navbar %}
+        <a class="nav-link ml-0" href="{% url 'create_post' %}"> +Create Post</a>
+        <a class="nav-link ml-0" href="{% url 'logout' %}">Logout</a>
+        <form class="form-inline my-2 my-lg-0" method="GET">
+              {% csrf_token %}
+              <input class="form-control mr-sm-2" type="text" name="index_search" placeholder="search items" aria-label="Search" value="{{ request.GET.index_search }}">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+{%endblock navbar %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <h1 class="text-center mb-4 mt-5">My Posted Items</h1><hr>
+</div>
+
+{% for p in post %}
+
+    <div class="col-md-3 mt-3 mb-3">
+        <div class="card" style="width: 18rem;">
+          <img style="height:190px;" src="{{ p.product_image.url }}" class="card-img-top" alt="image">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ p.product_name }}</h5>
+            <p class="card-text text-justify" style="height:250px;overflow:hidden;">{{ p.product_description }}</p>
+            <h4 class="card-text text-center">Price: {{ p.product_price }} bdt </h4>
+            <p class="card-text text-center"><small class="text-muted">Post's EOD: {{ p.end_date|date:"M j, Y" }}</small></p>
+          </div>
+        </div>
+    </div>
+
+{% endfor %}
+
+
+{% endblock content %}
+
+
+{% block footer %}
+    <footer style="text-align:center;padding: 35px 0px 8px 0px!important;">
+        <p><small>&copy; 2021 iTrade. All Rights Reserved </small></p>
+  </footer>
+{% endblock footer %}
+

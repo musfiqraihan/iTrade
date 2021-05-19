@@ -18,17 +18,13 @@
   <body>
 
   <nav class="navbar navbar-light bg-light">
-        <a href="" class="navbar-brand mr-auto mt-2">iTrade</a>
+        <a href="/" class="navbar-brand mr-auto mt-2">iTrade</a>
 
         {% if user.is_authenticated %}
-            <a class="nav-link ml-0" href="">Create Post</a>
-            <a class="nav-link ml-0" href="">My Posts</a>
-            <a class="nav-link ml-0" href="{% url 'logout' %}">Logout</a>
-            <form class="form-inline my-2 my-lg-0" method="GET">
-                  {% csrf_token %}
-                  <input class="form-control mr-sm-2" type="text" name="index_search" placeholder="search items" aria-label="Search" value="{{ request.GET.index_search }}">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form>
+            {% block navbar %}
+
+            {%endblock navbar %}
+
         {% else %}
             {% block access %}
 
