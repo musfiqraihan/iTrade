@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+    Register Page
+{% endblock %}
+
+{% block style %}
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+{% endblock %}
+
+{% block profile %}
+
+{% endblock %}
+
+{% block access %}
+    <a class="nav-link ml-0" href="{% url 'login' %}">LogIn</a>
+{%endblock access %}
+
+{% block content %}
+        <div class="col-md-6 offset-3">
+            <h1 class="text-center mb-4 mt-5">Registration Form</h1><hr>
+            <form action="" method="post">
+                {% csrf_token %}
+
+
+                <!---error message-->
+                   {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                            <p style="text-align:center;padding:5px;"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <!---error message-->
+
+                {{ form|crispy }}
+                <button class="btn btn-outline-success btn-block ">Register</button>
+            </form>
+        </div>
+
+{% endblock %}
+
+{% block footer %}
+    <footer style="text-align:center;padding: 35px 0px 8px 0px!important;">
+        <p><small>&copy; 2021 iTrade. All Rights Reserved </small></p>
+  </footer>
+{% endblock footer %}
+
+{% block scripts %}
+
+{% endblock %}

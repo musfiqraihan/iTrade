@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    iTrade - home Page
+{% endblock title %}
+
+{% block access %}
+
+{%endblock access %}
+
+{% block content %}
+<div class="col-md-6 offset-3">
+
+    <!---error message-->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p style="text-align:center;padding:5px;"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!---error message-->
+
+</div>
+
+
+{% endblock content %}
+
+
+{% block footer %}
+    <footer style="text-align:center;padding: 35px 0px 8px 0px!important;">
+        <p><small>&copy; 2021 iTrade. All Rights Reserved </small></p>
+  </footer>
+{% endblock footer %}
+
