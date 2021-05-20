@@ -87,7 +87,25 @@ def single_posts(request, id):
         check_lt = TradePost.objects.filter(pk=id, end_date__lt=datetime.date.today())
 
         if check_lt:
-            return render(request, 'trade/single_post.html', {"post": post, "bid": get_bidder_list})
+            get_winner = []
+
+            for w in get_bidder_list:
+                get_winner.append(w.bid_product_price_bdt)
+
+            winner_price = max(get_winner)
+
+            winner = BiddingPost.objects.get(bid_product_price_bdt=winner_price)
+            winner_name = winner.bid_publisher_name
+
+            context = {
+                "quote": "Auction Closed. Winner is: ",
+                "bid": get_bidder_list,
+                "post": post,
+                "winner": winner_name,
+                "at": " at ",
+                "price": winner_price,
+            }
+            return render(request, 'trade/single_post.html', context)
 
         else:
             form = CreateBiddingPost(request.POST or None)
