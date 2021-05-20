@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TradePost
+from .models import TradePost, BiddingPost
 
 
 class TradePostModel(admin.ModelAdmin):
@@ -10,3 +10,13 @@ class TradePostModel(admin.ModelAdmin):
 
 
 admin.site.register(TradePost, TradePostModel)
+
+
+class BiddingPostModel(admin.ModelAdmin):
+    list_display = ["__str__", "bid_publisher_name", "bid_product_price_bdt", "posted_on"]
+
+    class Meta:
+        Model = BiddingPost
+
+
+admin.site.register(BiddingPost, BiddingPostModel)

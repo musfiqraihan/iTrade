@@ -24,17 +24,41 @@
 
     <div class="col-md-3 mt-3 mb-3">
         <div class="card" style="width: 18rem;">
-          <img style="height:190px;" src="{{ p.product_image.url }}" class="card-img-top" alt="image">
+
+          <a href="{% url 'single_post' id=p.id %}"><img style="height:240px;" src="{{ p.product_image.url }}" class="card-img-top" alt="image"></a>
           <div class="card-body">
-            <h5 class="card-title text-center">{{ p.product_name }}</h5>
-            <p class="card-text text-justify" style="height:250px;overflow:hidden;">{{ p.product_description }}</p>
-            <h4 class="card-text text-center">Price: {{ p.product_price }} bdt </h4>
+            <h5 class="card-title text-center" style="overflow:hidden;height: 45px;!important"><a href="{% url 'single_post' id=p.id %}">{{ p.product_name }}</a></h5>
+            <p class="card-text text-justify" style="height:47px;overflow:hidden;">{{ p.product_description }}</p>
+            <h6 class="card-text text-center">Minimum Bid: {{ p.product_price }} bdt </h6>
             <p class="card-text text-center"><small class="text-muted">Post's EOD: {{ p.end_date|date:"M j, Y" }}</small></p>
           </div>
+
         </div>
     </div>
 
 {% endfor %}
+
+
+<div class="col-md-2 offset-5">
+    <div class="pagination">
+            <span class="step-links">
+                {% if post.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ post.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ post.number }} of {{ post.paginator.num_pages }}
+                </span>
+
+                {% if post.has_next %}
+                    <a href="?page={{ post.next_page_number }}">next</a>
+                    <a href="?page={{ post.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+</div>
+
 
 
 {% endblock content %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import TradePost
+from .models import TradePost, BiddingPost
 
 
 class CreateTradePost(forms.ModelForm):
@@ -14,4 +14,13 @@ class CreateTradePost(forms.ModelForm):
             'product_image',
             'product_price',
             'end_date',
+        ]
+
+
+class CreateBiddingPost(forms.ModelForm):
+
+    class Meta:
+        model = BiddingPost
+        fields = [
+            'bid_product_price_bdt',
         ]
