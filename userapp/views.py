@@ -7,7 +7,11 @@ from django.contrib.auth.models import User
 
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        if request.user.is_staff:
+            return redirect('admin_dashboard')
+        else:
+            return redirect('index')
+
     else:
         if request.method == "POST":
             get_name = request.POST['user']
@@ -25,8 +29,12 @@ def user_login(request):
             try:
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
-                    login(request, user)
-                    return redirect('index')
+                    if user.is_staff:
+                        login(request, user)
+                        return redirect('admin_dashboard')
+                    else:
+                        login(request, user)
+                        return redirect('index')
 
             except User.DoesNotExist:
                 return None
@@ -35,6 +43,7 @@ def user_login(request):
                 messages.add_message(request, messages.ERROR, 'Username Or Password Mismatch!')
 
     return render(request, 'user/login.html')
+
 
 
 def user_register(request):

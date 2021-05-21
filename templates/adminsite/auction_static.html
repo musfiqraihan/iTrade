@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    iTrade - Auction Static page
+{% endblock title %}
+
+{% block navbar %}
+        <a class="nav-link ml-0" href="{% url 'admin_dashboard' %}">All items</a>
+        <a class="nav-link ml-0" href="{% url 'logout' %}">Logout</a>
+        <a class="nav-link ml-0" style="color:black;">Hi! {{ user.username }}</a>
+
+{%endblock navbar %}
+
+
+
+{% block content %}
+
+
+<div class="col-md-12">
+    <!---error message-->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p style="text-align:center;padding:5px;"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!---error message-->
+<h4 class="text-center mb-2 mt-2">Admin Panel</h4>
+<h2 class="text-center mb-2 mt-2">Auction Static Page</h2><hr>
+
+
+    <div class="row">
+
+      <div class="col-md-4 offset-1">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Running Auctions</h5>
+            <h1 class="text-left mb-2 mt-2" style="color:green;">{{ current }}</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 offset-1">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Value(Running)</h5>
+            <h1 class="text-left mb-2 mt-2" style="color:red;">{{ value }}</h1>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+        <div class="col-md-10 offset-1 mt-5 mb-1" url-endpoint='{% url "get_data" %}'>
+            <h5 class="text-center">Auction's Chart (Monthly)</h5>
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <div class="col-md-10 offset-1 mt-5" url-endpoint='{% url "get_data" %}'>
+            <h5 class="text-center">Auction's Total Value (Monthly)</h5>
+            <canvas id="myChart2"></canvas>
+        </div>
+
+
+
+
+</div>
+
+{% endblock content %}
+
+
+{% block footer %}
+    <footer style="text-align:center;padding: 35px 0px 8px 0px!important;">
+        <p><small>&copy; 2021 iTrade. All Rights Reserved </small></p>
+  </footer>
+{% endblock footer %}
+
+
+{% block script %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+ <script>
+
+      $(document).ready(function(){
+          const endpoint = '/itrade/admin/get/data/';
+
+            $.ajax({
+                method: "GET",
+                url: endpoint,
+                dataType: 'json',
+                success: function(data){
+                    const ac_add = data.auction_add;
+                    const ac_com = data.auction_complete;
+                    const total = data.auction_value;
+
+                    const labels = ['March', 'April', 'May', 'June', 'July', 'August'];
+
+                    const ctx = document.getElementById('myChart');
+                    const ctx2 = document.getElementById('myChart2');
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                             labels: labels,
+                              datasets: [{
+                                label: 'Auction Added',
+                                data: ac_add,
+                                fill: false,
+                                borderColor: 'rgb(75, 192, 192)',
+                                tension: 0.1
+                              },
+                              {
+                                label: 'Auction Completed',
+                                data: ac_com,
+                                fill: false,
+                                borderColor: 'rgb(75, 72, 172)',
+                                tension: 0.1
+                              }]
+                        }
+                    })
+
+                    const myChart2 = new Chart(ctx2, {
+                        type: 'line',
+                        data: {
+                             labels: labels,
+                              datasets: [{
+                                label: "Auction's value",
+                                data: total,
+                                fill: false,
+                                borderColor: 'rgb(75, 192, 192)',
+                                tension: 0.1
+                              }]
+                        }
+                    })
+                },
+                error: function(error_data){
+                    console.log("error")
+                    console.log(error_data)
+                }
+            });
+
+ });
+
+</script>
+
+
+{% endblock script %}

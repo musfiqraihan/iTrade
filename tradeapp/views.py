@@ -8,16 +8,15 @@ from django.contrib import messages
 from django.http import HttpResponseNotFound
 import datetime
 
+
 def home(request):
     if request.user.is_authenticated:
-        user = get_object_or_404(User, id=request.user.id)
-
         post = TradePost.objects.all().order_by('-posted_on')
         search = request.GET.get('index_search')
 
         if search:
             post = post.filter(
-                Q(product_name__icontains=search) | Q(product_description_icontains=search)
+                Q(product_name__icontains=search)
             )
 
         paginator = Paginator(post, 8)

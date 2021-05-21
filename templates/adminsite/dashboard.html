@@ -1,38 +1,48 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    iTrade - my post items
+    iTrade - Admin Dashboard
 {% endblock title %}
 
 {% block navbar %}
-        <a class="nav-link ml-0" href="{% url 'create_post' %}"> +Create Post</a>
+        <a class="nav-link ml-0" href="{% url 'auction_static' %}">Auctions Statistics</a>
         <a class="nav-link ml-0" href="{% url 'logout' %}">Logout</a>
+        <a class="nav-link ml-0" style="color:black;">Hi! {{ user.username }}</a>
+
 {%endblock navbar %}
 
 {% block content %}
 
 <div class="col-md-12">
-    <h1 class="text-center mb-4 mt-5">My Posted Items</h1><hr>
+    <!---error message-->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p style="text-align:center;padding:5px;"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!---error message-->
+<h4 class="text-center mb-2 mt-2">Admin Panel</h4>
+<h2 class="text-center mb-2 mt-2">All Posted Items</h2><hr>
 </div>
 
 {% for p in post %}
 
     <div class="col-md-3 mt-3 mb-3">
         <div class="card" style="width: 18rem;">
-
-          <a href="{% url 'single_post' id=p.id %}"><img style="height:240px;" src="{{ p.product_image.url }}" class="card-img-top" alt="image"></a>
+            <a href="{% url 'admin_single_post' id=p.id %}"><img style="height:240px;" src="{{ p.product_image.url }}" class="card-img-top" alt="image"></a>
           <div class="card-body">
-            <h5 class="card-title text-center" style="overflow:hidden;height: 45px;!important"><a href="{% url 'single_post' id=p.id %}">{{ p.product_name }}</a></h5>
+            <h5 class="card-title text-center" style="overflow:hidden;height: 45px;!important"><a href="{% url 'admin_single_post' id=p.id %}">{{ p.product_name }}</a></h5>
             <p class="card-text text-justify" style="height:47px;overflow:hidden;">{{ p.product_description }}</p>
             <h6 class="card-text text-center">Minimum Bid: {{ p.product_price }} bdt </h6>
             <p class="card-text text-center"><small class="text-muted">Post's EOD: {{ p.end_date|date:"M j, Y" }}</small></p>
+            <p class="card-text text-center" style="margin-top:-22px;"><small class="text-muted">Publisher: {{ p.publisher_name.username }}</small></p>
           </div>
-
         </div>
     </div>
 
 {% endfor %}
-
 
 <div class="col-md-2 offset-5">
     <div class="pagination">
@@ -53,7 +63,6 @@
             </span>
         </div>
 </div>
-
 
 
 {% endblock content %}

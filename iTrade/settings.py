@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'userapp',
     'crispy_forms',
     'tradeapp',
+    'adminapp',
 
 ]
 

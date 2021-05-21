@@ -8,5 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("userapp.urls")),
     path('user/', include("tradeapp.urls")),
+    path('itrade/admin/', include("adminapp.urls")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
