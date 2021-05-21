@@ -74,4 +74,8 @@ https://stackoverflow.com/questions/47875045/chart-js-creating-a-line-graph-usin
 ### My Works:
 Trying my best to look pretty but taken mostly priority for the backend functionality.
 
+## Step 6
+
+deploy: https://itradeapp.herokuapp.com/
+
 
